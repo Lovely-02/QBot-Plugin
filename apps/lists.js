@@ -34,6 +34,8 @@ export class Qlists extends plugin {
     })
     if (Config.QBotSet.markdown) {
       msglist.push(`#QBot列表\n\`\`\`\r`)
+    } else {
+      msglist.push(`QBot列表\r`)
     }
     msglist.push(lists.join("\n——————\n"))
     if (Config.QBotSet.markdown) {

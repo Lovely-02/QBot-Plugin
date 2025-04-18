@@ -13,13 +13,18 @@ export const helpCfg = {
 
 export const helpList = [
   {
-    group: "功能类",
+    group: "登录类",
     list: [
       {
         icon: 1,
         title: "#Qbot登录",
         desc: "登录开放平台"
-      },
+      }
+    ]
+  },
+  {
+    group: "功能类",
+    list: [
       {
         icon: 2,
         title: "#Qbot列表",
@@ -34,6 +39,11 @@ export const helpList = [
         icon: 4,
         title: "#Qbot数据",
         desc: "开放平台数据"
+      },
+      {
+        icon: 5,
+        title: "#Qbot模板",
+        desc: "开放平台模板"
       }
     ]
   }

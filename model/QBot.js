@@ -11,6 +11,7 @@ export default new (class QBot {
     this.notice = `${this.api}/pb/AppFetchPrivateMsg`
     this.lists = `${this.api}/homepagepb/GetAppListForLogin`
     this.dau = `${this.bot}/cgi-bin/datareport/read`
+    this.msg_tpl = `${this.bot}/cgi-bin/msg_tpl/list`
   }
 
   async getlogin() {
@@ -67,6 +68,16 @@ export default new (class QBot {
     const json = await fetch(`${this.dau}?bot_appid=${appid}&data_type=${type}`, {
       method: "GET",
       headers: this.getHeaders(uin, uid, ticket)
+    })
+    const data = await json.json()
+    return data
+  }
+
+  async getmsg_tpl(uin, uid, ticket, appid) {
+    const json = await fetch(this.msg_tpl, {
+      method: "POST",
+      headers: this.getHeaders(uin, uid, ticket),
+      body: JSON.stringify({ bot_appid: appid, limit: 30 })
     })
     const data = await json.json()
     return data

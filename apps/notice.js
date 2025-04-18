@@ -26,7 +26,7 @@ export class Qnotice extends plugin {
     }
     const data = await QBot.getnotice(ck.uin, ck.developerId, ck.ticket)
     if (data.code != 0) {
-      return await e.reply("获取通知失败")
+      return await e.reply(["获取通知失败\r可能登录失效了, 请重新登录", new Buttons().QBot()])
     }
 
     const notice = data.data.privateMsgs
@@ -43,6 +43,8 @@ export class Qnotice extends plugin {
     })
     if (Config.QBotSet.markdown) {
       msglist.push(`#QBot通知\n\`\`\`\r`)
+    } else {
+      msglist.push(`QBot通知\r`)
     }
     msglist.push(notices.join("\n——————\n"))
     if (Config.QBotSet.markdown) {

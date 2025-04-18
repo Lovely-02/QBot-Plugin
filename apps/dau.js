@@ -31,7 +31,7 @@ export class Qdaue extends plugin {
     let code2 = data2.retcode
     let code3 = data3.retcode
     if (code1 != 0 || code2 != 0 || code3 != 0) {
-      return e.reply("查询失败")
+      return e.reply(["获取数据失败\r可能登录失效了, 请重新登录", new Buttons().QBot()])
     } else {
       let msglist = []
       let msg_data = data1.data.msg_data
