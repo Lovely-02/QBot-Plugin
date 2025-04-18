@@ -1,0 +1,22 @@
+# 此配置文件为系统使用，请勿修改，否则可能无法正常使用
+# 用户配置已移动至 Yz/config/QBot-Plugin.yaml
+
+admin:
+  priorityTips: |-
+    优先级
+  priority: 0
+  regTips: |-
+    指令正则
+  reg: ([Qq]?[Bb]ot)
+QBotSet:
+  nameTips: |-
+    机器人名称
+  name: 小灵儿
+  markdownTips: |-
+    机器人是否支持Markdown
+  markdown: true
+  atTips: |-
+    机器人是否支持at
+  dayTips: |-
+    最近几天活跃
+  day: 5
