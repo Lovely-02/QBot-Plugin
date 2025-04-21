@@ -33,23 +33,22 @@ export class Qnotice extends plugin {
     if (notice.length === 0) {
       return await e.reply("暂无通知消息。")
     }
-    let msglist = []
-    const notices = notice.map((msg, index) => {
-      return [
-        `通知:  ${index + 1}`,
-        `标题: ${msg.title.replace(/<[^>]*>?/gm, "")}`,
-        `时间: ${moment(parseInt(msg.send_time) * 1000).format("YYYY年MM月DD日HH:mm")}`
-      ].join("\n")
+    const datePrefix = Config.QBotSet.markdown ? "#" : ""
+    const infoPrefix = Config.QBotSet.markdown ? ">" : ""
+
+    const notices = notice.map((msgs, index) => {
+      const msg = []
+      msg.push(`${datePrefix}通知: ${index + 1}`)
+      msg.push(`${infoPrefix}标题: ${msgs.title.replace(/<[^>]*>?/gm, "")}`)
+      msg.push(`${infoPrefix}时间: ${moment(parseInt(msgs.send_time) * 1000).format("YYYY年MM月DD日HH:mm")}`)
+      return msg.join("\r")
     })
-    if (Config.QBotSet.markdown) {
-      msglist.push(`\r#QBot通知\r\r\`\`\`\r`)
-    } else {
-      msglist.push(`QBot通知\r`)
-    }
-    msglist.push(notices.join("\n——————\n"))
-    if (Config.QBotSet.markdown) {
-      msglist.push(`\n\`\`\``)
-    }
+
+    const header = Config.QBotSet.markdown ? `\r#QBot通知\r\r` : `QBot通知\r`
+    let msglist = []
+    msglist.push(header)
+    msglist.push(notices.join("\r\r---\r"))
+
     return await e.reply([msglist.join(""), new Buttons().QBot()])
   }
 }

@@ -25,22 +25,39 @@ export class Qlists extends plugin {
     }
     const data = await QBot.getlists(ck.uin, ck.developerId, ck.ticket)
     if (data.code != 0) {
-      return await e.reply("获取列表失败")
+      return await e.reply(["获取列表失败\r可能登录失效了, 请重新登录", new Buttons().QBot()])
     }
     const apps = data.data.apps
-    let msglist = []
+
     const lists = apps.map((app) => {
-      return `名称: ${app.app_name}\nID: ${app.app_id}\n描述: ${app.app_desc}`
+      let statusText
+      switch (app.bot_status) {
+        case 2:
+          statusText = "审核中"
+          break
+        case 3:
+          statusText = "审核通过"
+          break
+        case 6:
+          statusText = "已发布"
+          break
+        default:
+          statusText = `未知状态(${app.bot_status})`
+      }
+      const datePrefix = Config.QBotSet.markdown ? "##" : ""
+      const infoPrefix = Config.QBotSet.markdown ? ">" : ""
+
+      const msg = []
+      msg.push(`${datePrefix}名称: ${app.app_name}`)
+      msg.push(`${infoPrefix}ID: ${app.app_id} ${statusText}`)
+      msg.push(`${infoPrefix}描述: ${app.app_desc}`)
+      return msg.join("\r")
     })
-    if (Config.QBotSet.markdown) {
-      msglist.push(`\r#QBot列表\n\n\`\`\`\r`)
-    } else {
-      msglist.push(`QBot列表\r`)
-    }
-    msglist.push(lists.join("\n——————\n"))
-    if (Config.QBotSet.markdown) {
-      msglist.push(`\n\`\`\``)
-    }
+
+    const header = Config.QBotSet.markdown ? `\r#QBot账号列表\r\r` : `QBot账号列表\r`
+    let msglist = []
+    msglist.push(header)
+    msglist.push(lists.join("\r\r---\r"))
     return await e.reply([msglist.join(""), new Buttons().QBot()])
   }
 }

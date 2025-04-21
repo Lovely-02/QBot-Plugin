@@ -42,8 +42,7 @@ export class Qdaue extends plugin {
         const formattedDate = msg_data[dayIndex]?.report_date
           ? moment(msg_data[dayIndex].report_date, "YYYYMMDD").format("YYYY年M月D日")
           : "无数据"
-        return [
-          `${formattedDate}`,
+        const dayInfo = [
           `上行消息：${msg_data[dayIndex]?.up_msg_cnt || "无数据"}`,
           `上行人数：${msg_data[dayIndex]?.up_msg_uv || "无数据"}`,
           `下行消息：${msg_data[dayIndex]?.down_msg_cnt || "无数据"}`,
@@ -57,17 +56,18 @@ export class Qdaue extends plugin {
           `新增好友：${friend_data[dayIndex]?.new_added_friends || "无数据"}`,
           `减少好友：${friend_data[dayIndex]?.new_removed_friends || "无数据"}`
         ]
-      }
-      if (Config.QBotSet.markdown) {
-        msglist.push(`\`\`\`\r`)
+        const datePrefix = Config.QBotSet.markdown ? "#" : ""
+        const infoPrefix = Config.QBotSet.markdown ? ">" : ""
+        const result = [
+          `${datePrefix}${formattedDate}`,
+          ...dayInfo.map((info) => `${infoPrefix}${info}`)
+        ]
+        return result.join("\r")
       }
       for (let i = 0; i < Config.QBotSet.day; i++) {
-        msglist.push(generateDayData(i).join("\n"))
+        msglist.push(generateDayData(i))
       }
-      if (Config.QBotSet.markdown) {
-        msglist.push("```")
-      }
-      e.reply([msglist.join("\n——————\n"), new Buttons().QBot()])
+      e.reply([msglist.join("\r\r---\r"), new Buttons().QBot()])
     }
   }
 }
