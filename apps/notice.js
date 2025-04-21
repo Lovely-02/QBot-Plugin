@@ -42,7 +42,7 @@ export class Qnotice extends plugin {
       ].join("\n")
     })
     if (Config.QBotSet.markdown) {
-      msglist.push(`#QBot通知\n\`\`\`\r`)
+      msglist.push(`\r#QBot通知\r\r\`\`\`\r`)
     } else {
       msglist.push(`QBot通知\r`)
     }

@@ -14,11 +14,11 @@ export default new (class QBot {
     this.msg_tpl = `${this.bot}/cgi-bin/msg_tpl/list`
   }
 
-  async getlogin() {
+  async getlogin(type, appId = null) {
     const json = await fetch(this.login, {
       method: "POST",
       headers: this.getHeaders(),
-      body: JSON.stringify({ type: "777" })
+      body: JSON.stringify({ type: type, miniAppId: appId })
     })
     const data = await json.json()
     const QrCode = data.data.QrCode

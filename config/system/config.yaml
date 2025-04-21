@@ -14,7 +14,7 @@ QBotSet:
   name: 小灵儿
   markdownTips: |-
     机器人是否支持Markdown
-  markdown: true
+  markdown: false
   atTips: |-
     机器人是否支持at
   dayTips: |-

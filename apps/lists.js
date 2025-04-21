@@ -33,7 +33,7 @@ export class Qlists extends plugin {
       return `名称: ${app.app_name}\nID: ${app.app_id}\n描述: ${app.app_desc}`
     })
     if (Config.QBotSet.markdown) {
-      msglist.push(`#QBot列表\n\`\`\`\r`)
+      msglist.push(`\r#QBot列表\n\n\`\`\`\r`)
     } else {
       msglist.push(`QBot列表\r`)
     }

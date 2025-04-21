@@ -22,7 +22,7 @@ export class Qlogin extends plugin {
   }
 
   async login(e) {
-    const qr = await QBot.getlogin()
+    const qr = await QBot.getlogin(777)
     const url = `https://q.qq.Com/login/applist?code=${qr}`
     let a
     let b
@@ -37,8 +37,8 @@ export class Qlogin extends plugin {
       c = `\r${url}`
     }
     const msg = [
-      `${a}QQ开发平台管理端登录`,
-      `\r\r${b}`,
+      `\r${a}QQ开放平台管理端登录`,
+      `\r${b}`,
       `登录具有时效性, 请尽快登录\r当你选择登录\r代表你已经同意将数据托管给${Config.QBotSet.name}Bot..`,
       c
     ]

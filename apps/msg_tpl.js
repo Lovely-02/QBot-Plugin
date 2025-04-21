@@ -55,14 +55,14 @@ export class Qmsg_tpl extends plugin {
       ]
 
       if (Config.QBotSet.markdown) {
-        templateInfo.push(`\n\`\`\`\r${tpl.text}\r\`\`\`\n`)
+        templateInfo.push(`\r\r\`\`\`\r${tpl.text}\r\`\`\`\r`)
       }
 
       return templateInfo.join("\n")
     })
 
     if (Config.QBotSet.markdown) {
-      msglist.push(`#QBot消息模板列表\r>`)
+      msglist.push(`\r#QBot消息模板列表\r>`)
       msglist.push(templates.join("\n——————\r\r>"))
     } else {
       msglist.push(`QBot消息模板列表\r`)
