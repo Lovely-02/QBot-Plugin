@@ -1,8 +1,8 @@
 import { Config } from "#components"
-import { QBot, Buttons } from "#model"
+import { QBot, DB, Buttons } from "#model"
 import moment from "moment"
 
-export class Qdaue extends plugin {
+export class Qdau extends plugin {
   constructor() {
     super({
       name: "[dau.js]QBotdau",
@@ -20,7 +20,7 @@ export class Qdaue extends plugin {
 
   async dau(e) {
     const appId = await redis.get(`QBot:${e.user_id}`)
-    const ck = await QBot.getcookies(e.user_id, appId)
+    const ck = await DB.getcookies(e.user_id, appId)
     if (!ck) {
       return await e.reply("你还没有登录哦~\r请输入#QBot登录")
     }
@@ -58,10 +58,7 @@ export class Qdaue extends plugin {
         ]
         const datePrefix = Config.QBotSet.markdown ? "#" : ""
         const infoPrefix = Config.QBotSet.markdown ? ">" : ""
-        const result = [
-          `${datePrefix}${formattedDate}`,
-          ...dayInfo.map((info) => `${infoPrefix}${info}`)
-        ]
+        const result = [`${datePrefix}${formattedDate}`, ...dayInfo.map((info) => `${infoPrefix}${info}`)]
         return result.join("\r")
       }
       for (let i = 0; i < Config.QBotSet.day; i++) {

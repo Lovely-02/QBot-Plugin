@@ -1,5 +1,5 @@
 import { Config } from "#components"
-import { QBot, Buttons } from "#model"
+import { QBot, DB, Buttons } from "#model"
 import moment from "moment"
 
 export class Qnotice extends plugin {
@@ -20,7 +20,7 @@ export class Qnotice extends plugin {
 
   async notice(e) {
     const appId = await redis.get(`QBot:${e.user_id}`)
-    const ck = await QBot.getcookies(e.user_id, appId)
+    const ck = await DB.getcookies(e.user_id, appId)
     if (!ck) {
       return await e.reply("你还没有登录哦~\r请输入#QBot登录")
     }

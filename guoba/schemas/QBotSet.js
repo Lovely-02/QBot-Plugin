@@ -25,5 +25,10 @@ export default [
       placeholder: "请输入数字"
     },
     component: "InputNumber"
+  },
+  {
+    field: "QBotSet.count",
+    label: "QBot统计",
+    component: "Switch"
   }
 ]

@@ -15,8 +15,9 @@ QBotSet:
   markdownTips: |-
     机器人是否支持Markdown
   markdown: false
-  atTips: |-
-    机器人是否支持at
   dayTips: |-
     最近几天活跃
   day: 5
+  countTips: |-
+    是否开启机器人统计
+  count: false

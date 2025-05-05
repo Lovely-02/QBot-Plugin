@@ -1,6 +1,3 @@
-import fs from "fs"
-import yaml from "yaml"
-
 export default new (class QBot {
   constructor() {
     this.api = "https://q.qq.com"
@@ -81,16 +78,6 @@ export default new (class QBot {
     })
     const data = await json.json()
     return data
-  }
-
-  async getcookies(user, appid) {
-    const user_id = `./data/QBot/${user}.yaml`
-    if (fs.existsSync(user_id)) {
-      const ck = yaml.parse(fs.readFileSync(user_id, "utf8"))
-      return ck[appid]
-    } else {
-      return null
-    }
   }
 
   getHeaders(uin = null, uid = null, ticket = null) {

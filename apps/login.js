@@ -1,9 +1,5 @@
 import { Config } from "#components"
-import { QBot, Buttons } from "#model"
-import yaml from "yaml"
-import fs from "fs"
-
-const file = `./data/QBot`
+import { QBot, DB, Buttons } from "#model"
 
 export class Qlogin extends plugin {
   constructor() {
@@ -57,16 +53,16 @@ export class Qlogin extends plugin {
           appType: data.appType,
           appId: data.appId
         }
-        let cookie = {}
-        const filePath = `${file}/${e.user_id}.yaml`
-        if (fs.existsSync(filePath)) {
-          cookie = yaml.parse(fs.readFileSync(filePath, "utf8"))
-        }
-        cookie[data.appId] = cookies
-        if (!fs.existsSync(file)) {
-          fs.mkdirSync(file, { recursive: true })
-        }
-        fs.writeFileSync(filePath, yaml.stringify(cookie), "utf8")
+        await DB.setcookies(
+          e.user_id,
+          cookies.appId,
+          cookies.uid,
+          cookies.uin,
+          cookies.ticket,
+          cookies.developerId,
+          cookies.appType
+        )
+
         await redis.set(`QBot:${e.user_id}`, data.appId)
         return await e.reply([`appId: ${data.appId}\r登录成功`, new Buttons().QBot()])
       }
