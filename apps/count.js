@@ -26,7 +26,10 @@ export class Qcount extends plugin {
     if (!getUser) {
       await DB.setID("user", user)
       const userCount = await this.getall("user")
-      await e.reply(`欢迎新用户！您是第 ${userCount} 位使用 ${Config.QBotSet.name} BOT的用户！`)
+      await e.reply([
+        `欢迎新用户！您是第 ${userCount} 位使用 ${Config.QBotSet.name} BOT的用户！`,
+        new Buttons().QBot()
+      ])
     }
     if (!getGroup) {
       await DB.setID("group", group)
@@ -38,8 +41,8 @@ export class Qcount extends plugin {
     if (!Config.QBotSet.count || !this.isQQBot(e)) return false
     const UserAll = await this.getall("user")
     const GroupAll = await this.getall("group")
-    const msg = `${Config.QBotSet.name}\r📊 当前统计结果: \r用户总数：${UserAll} 条\r群组总数: ${GroupAll} 条`
-    await e.reply(msg)
+    const msg = `${Config.QBotSet.name}\r📊 当前统计结果: \r用户总数: ${UserAll} 条\r群组总数: ${GroupAll} 条`
+    await e.reply([msg, new Buttons().QBot()])
   }
 
   async getall(type) {

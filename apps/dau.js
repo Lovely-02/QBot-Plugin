@@ -22,7 +22,7 @@ export class Qdau extends plugin {
     const appId = await redis.get(`QBot:${e.user_id}`)
     const ck = await DB.getcookies(e.user_id, appId)
     if (!ck) {
-      return await e.reply("你还没有登录哦~\r请输入#QBot登录")
+      return await e.reply(["你还没有登录哦~\r请输入#QBot登录", new Buttons().QBot()])
     }
     const data1 = await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 1)
     const data2 = await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 2)
@@ -58,7 +58,10 @@ export class Qdau extends plugin {
         ]
         const datePrefix = Config.QBotSet.markdown ? "#" : ""
         const infoPrefix = Config.QBotSet.markdown ? ">" : ""
-        const result = [`${datePrefix}${formattedDate}`, ...dayInfo.map((info) => `${infoPrefix}${info}`)]
+        const result = [
+          `${datePrefix}${formattedDate}`,
+          ...dayInfo.map((info) => `${infoPrefix}${info}`)
+        ]
         return result.join("\r")
       }
       for (let i = 0; i < Config.QBotSet.day; i++) {

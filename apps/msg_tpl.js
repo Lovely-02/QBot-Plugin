@@ -20,7 +20,7 @@ export class Qmsg_tpl extends plugin {
     const appId = await redis.get(`QBot:${e.user_id}`)
     const ck = await DB.getcookies(e.user_id, appId)
     if (!ck) {
-      return await e.reply("你还没有登录哦~\r请输入#QBot登录")
+      return await e.reply(["你还没有登录哦~\r请输入#QBot登录", new Buttons().QBot()])
     }
     const data = await QBot.getmsg_tpl(ck.uin, ck.developerId, ck.ticket, appId)
     if (data.retcode != 0) {

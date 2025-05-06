@@ -69,6 +69,6 @@ export class Qlogin extends plugin {
       i++
       await QBot.sleep(3000)
     }
-    return e.reply("登录失效")
+    return e.reply(["登录失效", new Buttons().QBot()])
   }
 }

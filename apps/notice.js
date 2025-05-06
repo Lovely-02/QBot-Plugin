@@ -22,7 +22,7 @@ export class Qnotice extends plugin {
     const appId = await redis.get(`QBot:${e.user_id}`)
     const ck = await DB.getcookies(e.user_id, appId)
     if (!ck) {
-      return await e.reply("你还没有登录哦~\r请输入#QBot登录")
+      return await e.reply(["你还没有登录哦~\r请输入#QBot登录", new Buttons().QBot()])
     }
     const data = await QBot.getnotice(ck.uin, ck.developerId, ck.ticket)
     if (data.code != 0) {
