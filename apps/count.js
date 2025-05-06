@@ -26,7 +26,16 @@ export class Qcount extends plugin {
     if (!getUser) {
       await DB.setID("user", user)
       const userCount = await this.getall("user")
-      await e.reply([`欢迎新用户！您是第 ${userCount} 位使用 ${Config.QBotSet.name} BOT的用户！`, new Buttons().QBot()])
+      const data = Bot.pickMember(group, String(e.user_id)).getAvatarUrl(100)
+      const url = data.replace(/\/0$/, "/100")
+      const msg = [
+        segment.image(url),
+        `\r#欢迎`,
+        segment.at(e.user_id),
+        `！您是第${userCount}位使用${Config.QBotSet.name}的用户！`,
+        `\r>可以把${Config.QBotSet.name}邀请到任意群使用哦！`
+      ]
+      await e.reply(msg)
     }
     if (!getGroup) {
       await DB.setID("group", group)
@@ -37,7 +46,7 @@ export class Qcount extends plugin {
   async all(e) {
     const UserAll = await this.getall("user")
     const GroupAll = await this.getall("group")
-    const msg = `${Config.QBotSet.name}\r📊 当前统计结果: \r用户总数: ${UserAll} 条\r群组总数: ${GroupAll} 条`
+    const msg = `📊 ${Config.QBotSet.name}统计: \r用户: ${UserAll}\r群组: ${GroupAll}`
     await e.reply([msg, new Buttons().QBot()])
   }
 
