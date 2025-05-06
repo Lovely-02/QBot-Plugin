@@ -1,5 +1,5 @@
 import { Config } from "#components"
-import { DB } from "#model"
+import { DB, Buttons } from "#model"
 
 export class Qcount extends plugin {
   constructor() {
@@ -26,10 +26,7 @@ export class Qcount extends plugin {
     if (!getUser) {
       await DB.setID("user", user)
       const userCount = await this.getall("user")
-      await e.reply([
-        `欢迎新用户！您是第 ${userCount} 位使用 ${Config.QBotSet.name} BOT的用户！`,
-        new Buttons().QBot()
-      ])
+      await e.reply([`欢迎新用户！您是第 ${userCount} 位使用 ${Config.QBotSet.name} BOT的用户！`, new Buttons().QBot()])
     }
     if (!getGroup) {
       await DB.setID("group", group)
@@ -38,7 +35,6 @@ export class Qcount extends plugin {
   }
 
   async all(e) {
-    if (!Config.QBotSet.count || !this.isQQBot(e)) return false
     const UserAll = await this.getall("user")
     const GroupAll = await this.getall("group")
     const msg = `${Config.QBotSet.name}\r📊 当前统计结果: \r用户总数: ${UserAll} 条\r群组总数: ${GroupAll} 条`
