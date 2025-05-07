@@ -1,5 +1,5 @@
 import { Config } from "#components"
-import { DB, Buttons } from "#model"
+import { QBot, DB, Buttons } from "#model"
 
 export class Qcount extends plugin {
   constructor() {
@@ -26,14 +26,14 @@ export class Qcount extends plugin {
     if (!getUser) {
       await DB.setID("user", user)
       const userCount = await this.getall("user")
-      const data = Bot.pickMember(group, String(e.user_id)).getAvatarUrl(100)
-      const url = data.replace(/\/0$/, "/100")
+      const data = await Bot.pickMember(group, String(e.user_id)).getAvatarUrl(100)
+      const url = await data.replace(/\/0$/, "/100")
       const msg = [
         segment.image(url),
-        `\r#欢迎`,
+        `${QBot.title(true)}欢迎`,
         segment.at(e.user_id),
         `！您是第${userCount}位使用${Config.QBotSet.name}的用户！`,
-        `\r>可以把${Config.QBotSet.name}邀请到任意群使用哦！`
+        `${QBot.quote(true)}可以把${Config.QBotSet.name}邀请到任意群使用哦！`
       ]
       await e.reply(msg)
     }
@@ -46,8 +46,12 @@ export class Qcount extends plugin {
   async all(e) {
     const UserAll = await this.getall("user")
     const GroupAll = await this.getall("group")
-    const msg = `📊 ${Config.QBotSet.name}统计: \r用户: ${UserAll}\r群组: ${GroupAll}`
-    await e.reply([msg, new Buttons().QBot()])
+    const msg = [
+      `${QBot.title(true)}📊 ${Config.QBotSet.name}统计: `,
+      `${QBot.quote(true)}用户: ${UserAll}`,
+      `${QBot.quote(true)}群组: ${GroupAll}`
+    ]
+    await e.reply([msg.join(""), new Buttons().QBot()])
   }
 
   async getall(type) {

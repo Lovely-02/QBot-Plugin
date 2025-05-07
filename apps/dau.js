@@ -56,18 +56,16 @@ export class Qdau extends plugin {
           `新增好友：${friend_data[dayIndex]?.new_added_friends || "无数据"}`,
           `减少好友：${friend_data[dayIndex]?.new_removed_friends || "无数据"}`
         ]
-        const datePrefix = Config.QBotSet.markdown ? "#" : ""
-        const infoPrefix = Config.QBotSet.markdown ? ">" : ""
         const result = [
-          `${datePrefix}${formattedDate}`,
-          ...dayInfo.map((info) => `${infoPrefix}${info}`)
+          `${QBot.title()}${formattedDate}`,
+          ...dayInfo.map((info) => `${QBot.quote()}${info}`)
         ]
-        return result.join("\r")
+        return result
       }
       for (let i = 0; i < Config.QBotSet.day; i++) {
         msglist.push(generateDayData(i))
       }
-      e.reply([msglist.join("\r\r---\r"), new Buttons().QBot()])
+      e.reply([`${QBot.json()}`, msglist.join(`\r\r---\r`), `${QBot.json()}`, new Buttons().QBot()])
     }
   }
 }

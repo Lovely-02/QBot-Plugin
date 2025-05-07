@@ -15,7 +15,14 @@ export default [
   {
     field: "QBotSet.markdown",
     label: "markdown模式",
-    component: "Switch"
+    componentProps: {
+      options: [
+        { label: "不使用", value: "false" },
+        { label: "md格式", value: "md" },
+        { label: "json格式", value: "json" }
+      ]
+    },
+    component: "Select"
   },
   {
     field: "QBotSet.day",

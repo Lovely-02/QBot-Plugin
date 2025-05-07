@@ -31,9 +31,6 @@ export class Qmsg_tpl extends plugin {
       return await e.reply("暂无模板消息。")
     }
 
-    const datePrefix = Config.QBotSet.markdown ? "##" : ""
-    const infoPrefix = Config.QBotSet.markdown ? ">" : ""
-
     const templates = msg_tpl.map((tpl) => {
       const typeText =
         tpl.tpl_type === 1
@@ -51,18 +48,19 @@ export class Qmsg_tpl extends plugin {
           : `未知状态(${tpl.status})`
 
       const msg = []
-      msg.push(`${datePrefix}ID: ${tpl.tpl_id}`)
-      msg.push(`${infoPrefix}名称: ${tpl.tpl_name}`)
-      msg.push(`${infoPrefix}类型: ${typeText}`)
-      msg.push(`${infoPrefix}状态: ${statusText}`)
-      return msg.join("\r")
+      msg.push(`${QBot.title()}ID: ${tpl.tpl_id}`)
+      msg.push(`${QBot.quote()}名称: ${tpl.tpl_name}`)
+      msg.push(`${QBot.quote()}类型: ${typeText}`)
+      msg.push(`${QBot.quote()}状态: ${statusText}`)
+      return msg
     })
 
-    const header = Config.QBotSet.markdown ? `\r#QBot消息模板列表\r\r` : `QBot消息模板列表\r`
-    let msglist = []
-    msglist.push(header)
-    msglist.push(templates.join("\r\r---\r"))
-
+    let msglist = [
+      `${QBot.title(true)}QBot消息模板列表\r\r`,
+      `${QBot.json()}`,
+      templates.join("\r\r---\r"),
+      `${QBot.json()}`
+    ]
     return await e.reply([msglist.join(""), new Buttons().QBot()])
   }
 }

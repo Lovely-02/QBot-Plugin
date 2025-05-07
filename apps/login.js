@@ -19,24 +19,14 @@ export class Qlogin extends plugin {
 
   async login(e) {
     const qr = await QBot.getlogin(777)
-    const url = `https://q.qq.Com/login/applist?code=${qr}`
-    let a
-    let b
-    let c
-    if (Config.QBotSet.markdown) {
-      a = "#"
-      b = ">"
-      c = segment.button([{ text: "登录", link: `${url}` }])
-    } else {
-      a = ""
-      b = ""
-      c = `\r${url}`
-    }
+    const data = `https://q.qq.Com/login/applist?code=${qr}`
+    const url = Config.QBotSet.markdown ? segment.button([{ text: "登录", link: `${data}` }]) : `\r${data}`
     const msg = [
-      `\r${a}QQ开放平台管理端登录`,
-      `\r${b}`,
-      `登录具有时效性, 请尽快登录\r当你选择登录\r代表你已经同意将数据托管给${Config.QBotSet.name}Bot..`,
-      c
+      `${QBot.title(true)}QQ开放平台管理端登录`,
+      `${QBot.quote(true)}登录具有时效性, 请尽快登录`,
+      `${QBot.quote(true)}当你选择登录`,
+      `${QBot.quote(true)}代表你已经同意将数据托管给${Config.QBotSet.name}Bot`,
+      url
     ]
     e.reply(msg)
     let i = 0
@@ -64,7 +54,11 @@ export class Qlogin extends plugin {
         )
 
         await redis.set(`QBot:${e.user_id}`, data.appId)
-        return await e.reply([`appId: ${data.appId}\r登录成功`, new Buttons().QBot()])
+        return await e.reply([
+          `${QBot.title(true)}登录成功`,
+          `${QBot.quote(true)}AppID: ${data.appId}`,
+          new Buttons().QBot()
+        ])
       }
       i++
       await QBot.sleep(3000)

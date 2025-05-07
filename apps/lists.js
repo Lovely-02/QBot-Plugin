@@ -44,20 +44,21 @@ export class Qlists extends plugin {
         default:
           statusText = `未知状态(${app.bot_status})`
       }
-      const datePrefix = Config.QBotSet.markdown ? "##" : ""
-      const infoPrefix = Config.QBotSet.markdown ? ">" : ""
 
-      const msg = []
-      msg.push(`${datePrefix}名称: ${app.app_name}`)
-      msg.push(`${infoPrefix}ID: ${app.app_id} ${statusText}`)
-      msg.push(`${infoPrefix}描述: ${app.app_desc}`)
-      return msg.join("\r")
+      const msg = [
+        `${QBot.title()}名称: ${app.app_name}`,
+        `${QBot.quote()}ID: ${app.app_id} ${statusText}`,
+        `${QBot.quote()}描述: ${app.app_desc}`
+      ]
+      return msg
     })
 
-    const header = Config.QBotSet.markdown ? `\r#QBot账号列表\r\r` : `QBot账号列表\r`
-    let msglist = []
-    msglist.push(header)
-    msglist.push(lists.join("\r\r---\r"))
+    let msglist = [
+      `${QBot.title(true)}QBot账号列表\r`,
+      `${QBot.json()}`,
+      lists.join("\r\r---\r"),
+      `${QBot.json()}`
+    ]
     return await e.reply([msglist.join(""), new Buttons().QBot()])
   }
 }

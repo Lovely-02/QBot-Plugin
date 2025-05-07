@@ -1,3 +1,5 @@
+import { Config } from "#components"
+
 export default new (class QBot {
   constructor() {
     this.api = "https://q.qq.com"
@@ -87,6 +89,18 @@ export default new (class QBot {
       Cookie: `quin=${uin};quid=${uid};qticket=${ticket}`
     }
     return headers
+  }
+
+  title(md = false) {
+    return !Config.QBotSet.markdown ? "\r" : md || Config.QBotSet.markdown === "md" ? "\r#" : "\r"
+  }
+
+  quote(md = false) {
+    return !Config.QBotSet.markdown ? "\r" : md || Config.QBotSet.markdown === "md" ? "\r> " : "\r"
+  }
+
+  json() {
+    return Config.QBotSet.markdown === "json" ? "\r```\r" : "\r"
   }
 
   sleep(ms) {

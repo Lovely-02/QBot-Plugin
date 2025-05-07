@@ -13,7 +13,8 @@ QBotSet:
     机器人名称
   name: 小灵儿
   markdownTips: |-
-    机器人是否支持Markdown
+    机器人Markdown模式
+    md: md格式 | json: json格式 | 默认为false
   markdown: false
   dayTips: |-
     最近几天活跃
