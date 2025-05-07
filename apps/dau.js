@@ -49,9 +49,8 @@ export class Qdau extends plugin {
         const DAUdata = msg_data[dayIndex]?.report_date ? moment(msg_data[dayIndex].report_date, "YYYYMMDD").format("YYYY年M月D日") : "无"
         const dayInfo = [
           `消息统计`,
-          `上行：${msg_data[dayIndex]?.up_msg_cnt || "无"} (${msg_data[dayIndex]?.up_msg_uv || "无"}人)`,
-          `下行：${msg_data[dayIndex]?.down_msg_cnt || "无"}`,
-          `总量：${msg_data[dayIndex]?.bot_msg_cnt || "无"}`,
+          `上行：${msg_data[dayIndex]?.up_msg_cnt || "无"} 下行：${msg_data[dayIndex]?.down_msg_cnt || "无"}`,
+          `总量：${msg_data[dayIndex]?.bot_msg_cnt || "无"} 人数：${msg_data[dayIndex]?.up_msg_uv || "无"}`,
           `群聊统计`,
           `现有：${group_data[dayIndex]?.existing_groups || "无"} 已用：${group_data[dayIndex]?.used_groups || "无"}`,
           `新增：${group_data[dayIndex]?.added_groups || "无"} 减少：${group_data[dayIndex]?.removed_groups || "无"}`,
@@ -71,7 +70,7 @@ export class Qdau extends plugin {
       }
       const msg = [
         `${QBot.title(true)}QBot数据`,
-        `${QBot.quote(true)}最近${Config.QBotSet.day}天统计`,
+        `${QBot.quote(true)}最近${Config.QBotSet.day}天统计\r`,
         `${QBot.json()}`,
         msglist.join(`\r\r---\r`),
         `${QBot.json()}`,

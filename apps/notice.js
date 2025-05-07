@@ -38,9 +38,7 @@ export class Qnotice extends plugin {
       const msg = [
         `${QBot.title()}通知: ${index + 1}`,
         `${QBot.quote()}标题: ${msgs.title.replace(/<[^>]*>?/gm, "")}`,
-        `${QBot.quote()}时间: ${moment(parseInt(msgs.send_time) * 1000).format(
-          "YYYY年MM月DD日HH:mm"
-        )}`
+        `${QBot.quote()}时间: ${moment(parseInt(msgs.send_time) * 1000).format("YYYY年MM月DD日HH:mm")}`
       ]
       return msg.join("")
     })
