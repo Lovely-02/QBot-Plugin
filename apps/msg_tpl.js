@@ -28,7 +28,7 @@ export class Qmsg_tpl extends plugin {
     }
     const msg_tpl = data.data.list
     if (msg_tpl.length === 0) {
-      return await e.reply("暂无模板消息。")
+      return await e.reply(["暂无模板消息。", new Buttons().QBot()])
     }
 
     const templates = msg_tpl.map((tpl) => {
@@ -47,16 +47,17 @@ export class Qmsg_tpl extends plugin {
           ? "已通过"
           : `未知状态(${tpl.status})`
 
-      const msg = []
-      msg.push(`${QBot.title()}ID: ${tpl.tpl_id}`)
-      msg.push(`${QBot.quote()}名称: ${tpl.tpl_name}`)
-      msg.push(`${QBot.quote()}类型: ${typeText}`)
-      msg.push(`${QBot.quote()}状态: ${statusText}`)
-      return msg
+      const msg = [
+        `${QBot.title()}ID: ${tpl.tpl_id}`,
+        `${QBot.quote()}名称: ${tpl.tpl_name}`,
+        `${QBot.quote()}类型: ${typeText}`,
+        `${QBot.quote()}状态: ${statusText}`
+      ]
+      return msg.join("")
     })
 
     let msglist = [
-      `${QBot.title(true)}QBot消息模板列表\r\r`,
+      `${QBot.title(true)}QBot消息模板列表`,
       `${QBot.json()}`,
       templates.join("\r\r---\r"),
       `${QBot.json()}`

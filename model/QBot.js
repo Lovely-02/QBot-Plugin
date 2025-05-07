@@ -64,7 +64,7 @@ export default new (class QBot {
   }
 
   async getdau(uin, uid, ticket, appid, type) {
-    const json = await fetch(`${this.dau}?bot_appid=${appid}&data_type=${type}`, {
+    const json = await fetch(`${this.dau}?bot_appid=${appid}&data_type=${type}&data_range=2&scene_id=1`, {
       method: "GET",
       headers: this.getHeaders(uin, uid, ticket)
     })

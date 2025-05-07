@@ -50,7 +50,7 @@ export class Qlists extends plugin {
         `${QBot.quote()}ID: ${app.app_id} ${statusText}`,
         `${QBot.quote()}描述: ${app.app_desc}`
       ]
-      return msg
+      return msg.join("")
     })
 
     let msglist = [

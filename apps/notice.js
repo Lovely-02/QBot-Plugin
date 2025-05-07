@@ -35,14 +35,22 @@ export class Qnotice extends plugin {
     }
 
     const notices = notice.map((msgs, index) => {
-      const msg = []
-      msg.push(`${QBot.title()}通知: ${index + 1}`)
-      msg.push(`${QBot.quote()}标题: ${msgs.title.replace(/<[^>]*>?/gm, "")}`)
-      msg.push(`${QBot.quote()}时间: ${moment(parseInt(msgs.send_time) * 1000).format("YYYY年MM月DD日HH:mm")}`)
-      return msg
+      const msg = [
+        `${QBot.title()}通知: ${index + 1}`,
+        `${QBot.quote()}标题: ${msgs.title.replace(/<[^>]*>?/gm, "")}`,
+        `${QBot.quote()}时间: ${moment(parseInt(msgs.send_time) * 1000).format(
+          "YYYY年MM月DD日HH:mm"
+        )}`
+      ]
+      return msg.join("")
     })
 
-    let msglist = [`${QBot.title(true)}QBot通知\r`, `${QBot.json()}`, notices.join("\r\r---\r"), `${QBot.json()}`]
+    let msglist = [
+      `${QBot.title(true)}QBot通知\r`,
+      `${QBot.json()}`,
+      notices.join("\r\r---\r"),
+      `${QBot.json()}`
+    ]
 
     return await e.reply([msglist.join(""), new Buttons().QBot()])
   }
