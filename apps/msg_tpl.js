@@ -1,5 +1,5 @@
 import { Config } from "#components"
-import { QBot, DB, Buttons } from "#model"
+import { DB, QBot, Login, Buttons } from "#model"
 
 export class Qmsg_tpl extends plugin {
   constructor() {
@@ -20,11 +20,11 @@ export class Qmsg_tpl extends plugin {
     const appId = await redis.get(`QBot:${e.user_id}`)
     const ck = await DB.getcookies(e.user_id, appId)
     if (!ck) {
-      return await e.reply(["你还没有登录哦~\r请输入#QBot登录", new Buttons().QBot()])
+      return await Login.login(e)
     }
     const data = await QBot.getmsg_tpl(ck.uin, ck.developerId, ck.ticket, appId)
     if (data.retcode != 0) {
-      return await e.reply(["获取模板失败\r可能登录失效了, 请重新登录", new Buttons().QBot()])
+      return await Login.login(e)
     }
     const msg_tpl = data.data.list
     if (msg_tpl.length === 0) {

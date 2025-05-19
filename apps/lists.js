@@ -1,5 +1,5 @@
 import { Config } from "#components"
-import { QBot, DB, Buttons } from "#model"
+import { DB, QBot, Login, Buttons } from "#model"
 
 export class Qlists extends plugin {
   constructor() {
@@ -21,11 +21,11 @@ export class Qlists extends plugin {
     const appId = await redis.get(`QBot:${e.user_id}`)
     const ck = await DB.getcookies(e.user_id, appId)
     if (!ck) {
-      return await e.reply(["你还没有登录哦~\r请输入#QBot登录", new Buttons().QBot()])
+      return await Login.login(e)
     }
     const data = await QBot.getlists(ck.uin, ck.developerId, ck.ticket)
     if (data.code != 0) {
-      return await e.reply(["获取列表失败\r可能登录失效了, 请重新登录", new Buttons().QBot()])
+      return await Login.login(e)
     }
     const apps = data.data.apps
 

@@ -1,5 +1,5 @@
 import { Config } from "#components"
-import { QBot, DB, Buttons } from "#model"
+import { DB, QBot, Login, Buttons } from "#model"
 import moment from "moment"
 
 export class Qdau extends plugin {
@@ -22,7 +22,7 @@ export class Qdau extends plugin {
     const appId = await redis.get(`QBot:${e.user_id}`)
     const ck = await DB.getcookies(e.user_id, appId)
     if (!ck) {
-      return await e.reply(["你还没有登录哦~\r请输入#QBot登录", new Buttons().QBot()])
+      return await Login.login(e)
     }
     const data0 = await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 0)
     const data1 = await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 1)
@@ -33,7 +33,7 @@ export class Qdau extends plugin {
     let code2 = data2.retcode
     let code3 = data3.retcode
     if (code0 != 0 || code1 != 0 || code2 != 0 || code3 != 0) {
-      return e.reply(["获取数据失败\r可能登录失效了, 请重新登录", new Buttons().QBot()])
+      return await Login.login(e)
     } else {
       let msglist = []
       let qg_data = data0.data.guild_data
