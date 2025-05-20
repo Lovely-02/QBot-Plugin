@@ -42,7 +42,7 @@ export default new (class Login {
   async Login(e) {
     let appId = await redis.get(`QBot:${e.user_id}`)
     let ck = await DB.getcookies(e.user_id, appId)
-    if (!ck || (ck && (await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 0)).code != 0)) {
+    if (!ck || (ck && (await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 0)).retcode != 0)) {
       await this.login(e)
       appId = await redis.get(`QBot:${e.user_id}`)
       ck = await DB.getcookies(e.user_id, appId)

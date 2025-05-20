@@ -1,5 +1,5 @@
 import { Config } from "#components"
-import { DB, QBot, Login, Buttons } from "#model"
+import { QBot, Login, Buttons } from "#model"
 
 export class Qmsg_tpl extends plugin {
   constructor() {

@@ -1,5 +1,5 @@
 import { Config } from "#components"
-import { QBot, DB, Buttons } from "#model"
+import { DB, QBot, Buttons } from "#model"
 
 export class Qcount extends plugin {
   constructor() {
