@@ -13,7 +13,7 @@ export default new (class Login {
       `${QBot.quote(true)}代表你已经同意将数据托管给${Config.QBotSet.name}Bot`,
       url
     ]
-    await e.reply(msg)
+    await e.reply(msg, true, { at: true, recallMsg: 60 })
     let i = 0
     while (i < 20) {
       let res = await QBot.getqrcode(qr)
@@ -36,6 +36,17 @@ export default new (class Login {
       i++
       await QBot.sleep(3000)
     }
-    return e.reply(["登录失效", new Buttons().QBot()])
+    return e.reply(["登录失效", new Buttons().QBot()], true, { at: true, recallMsg: 60 })
+  }
+
+  async Login(e) {
+    let appId = await redis.get(`QBot:${e.user_id}`)
+    let ck = await DB.getcookies(e.user_id, appId)
+    if (!ck || (ck && (await QBot.getstatus(ck.uin, ck.developerId, ck.ticket)).code != 0)) {
+      await this.login(e)
+      appId = await redis.get(`QBot:${e.user_id}`)
+      ck = await DB.getcookies(e.user_id, appId)
+    }
+    return { ck, appId }
   }
 })()

@@ -19,21 +19,16 @@ export class Qnotice extends plugin {
   }
 
   async notice(e) {
-    const appId = await redis.get(`QBot:${e.user_id}`)
-    const ck = await DB.getcookies(e.user_id, appId)
-    if (!ck) {
-      return await Login.login(e)
-    }
-    const data = await QBot.getnotice(ck.uin, ck.developerId, ck.ticket)
-    if (data.code != 0) {
-      return await Login.login(e)
-    }
+    const login = await Login.Login(e)
+    return this.data(e, login.ck, login.appId)
+  }
 
+  async data(e, ck, appId) {
+    const data = await QBot.getnotice(ck.uin, ck.developerId, ck.ticket)
     const notice = data.data.privateMsgs
     if (notice.length === 0) {
       return await e.reply("暂无通知消息。")
     }
-
     const notices = notice.map((msgs, index) => {
       const msg = [
         `${QBot.title()}通知: ${index + 1}`,

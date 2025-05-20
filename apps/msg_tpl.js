@@ -17,36 +17,30 @@ export class Qmsg_tpl extends plugin {
     })
   }
   async msg_tpl(e) {
-    const appId = await redis.get(`QBot:${e.user_id}`)
-    const ck = await DB.getcookies(e.user_id, appId)
-    if (!ck) {
-      return await Login.login(e)
-    }
+    const login = await Login.Login(e)
+    return this.data(e, login.ck, login.appId)
+  }
+
+  async data(e, ck, appId) {
     const data = await QBot.getmsg_tpl(ck.uin, ck.developerId, ck.ticket, appId)
-    if (data.retcode != 0) {
-      return await Login.login(e)
-    }
     const msg_tpl = data.data.list
     if (msg_tpl.length === 0) {
       return await e.reply(["暂无模板消息。", new Buttons().QBot()])
     }
 
-    const templates = msg_tpl.map((tpl) => {
-      const typeText =
-        tpl.tpl_type === 1
-          ? "消息按钮组件"
-          : tpl.tpl_type === 2
-          ? "Markdown模板组件"
-          : `未知类型(${tpl.tpl_type})`
-      const statusText =
-        tpl.status === 1
-          ? "未提审"
-          : tpl.status === 2
-          ? "审核中"
-          : tpl.status === 3
-          ? "已通过"
-          : `未知状态(${tpl.status})`
+    const typeMap = {
+      1: "消息按钮组件",
+      2: "Markdown模板组件"
+    }
+    const statusMap = {
+      1: "未提审",
+      2: "审核中", 
+      3: "已通过"
+    }
 
+    const templates = msg_tpl.map((tpl) => {
+      const typeText = typeMap[tpl.tpl_type] || `未知类型(${tpl.tpl_type})`
+      const statusText = statusMap[tpl.status] || `未知状态(${tpl.status})`
       const msg = [
         `${QBot.title()}ID: ${tpl.tpl_id}`,
         `${QBot.quote()}名称: ${tpl.tpl_name}`,

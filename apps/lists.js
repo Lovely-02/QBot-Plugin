@@ -16,35 +16,23 @@ export class Qlists extends plugin {
       ]
     })
   }
-
   async lists(e) {
-    const appId = await redis.get(`QBot:${e.user_id}`)
-    const ck = await DB.getcookies(e.user_id, appId)
-    if (!ck) {
-      return await Login.login(e)
-    }
+    const login = await Login.Login(e)
+    return this.data(e, login.ck, login.appId)
+  }
+
+  async data(e, ck, appId) {
     const data = await QBot.getlists(ck.uin, ck.developerId, ck.ticket)
-    if (data.code != 0) {
-      return await Login.login(e)
-    }
     const apps = data.data.apps
 
-    const lists = apps.map((app) => {
-      let statusText
-      switch (app.bot_status) {
-        case 2:
-          statusText = "审核中"
-          break
-        case 3:
-          statusText = "审核通过"
-          break
-        case 6:
-          statusText = "已发布"
-          break
-        default:
-          statusText = `未知状态(${app.bot_status})`
-      }
+    const statusMap = {
+      2: "审核中",
+      3: "审核通过",
+      6: "已发布"
+    }
 
+    const lists = apps.map((app) => {
+      const statusText = statusMap[app.bot_status] || `未知状态(${app.bot_status})`
       const msg = [
         `${QBot.title()}名称: ${app.app_name}`,
         `${QBot.quote()}ID: ${app.app_id} ${statusText}`,
