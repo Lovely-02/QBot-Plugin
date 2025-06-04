@@ -26,9 +26,11 @@ export class Qlists extends plugin {
     const apps = data.data.apps
 
     const statusMap = {
+      1: "开发中",
       2: "审核中",
       3: "审核通过",
-      6: "已发布"
+      6: "已发布",
+      7: "封禁中"
     }
 
     const lists = apps.map((app) => {
