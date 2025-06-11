@@ -12,6 +12,7 @@ export default new (class QBot {
     this.dau = `${this.bot}/cgi-bin/datareport/read`
     this.msg_tpl = `${this.bot}/cgi-bin/msg_tpl/list`
     this.status = `${this.api}/pb/GetDeveloper`
+    this.whlist = `${this.bot}/cgi-bin/event_subscirption/list_event`
   }
 
   async getlogin(type, appId = null) {
@@ -87,6 +88,16 @@ export default new (class QBot {
     const json = await fetch(this.status, {
       method: "GET",
       headers: this.getHeaders(uin, uid, ticket)
+    })
+    const data = await json.json()
+    return data
+  }
+
+  async getwhlist(uin, uid, ticket, appid) {
+    const json = await fetch(this.whlist, {
+      method: "POST",
+      headers: this.getHeaders(uin, uid, ticket),
+      body: JSON.stringify({ bot_appid: appid })
     })
     const data = await json.json()
     return data
