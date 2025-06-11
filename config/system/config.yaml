@@ -14,8 +14,8 @@ QBotSet:
   name: 小灵儿
   markdownTips: |-
     机器人Markdown模式
-    md: md格式 | json: json格式 | 默认为false
-  markdown: false
+    1: md格式 | 2: json格式 | 默认为false
+  markdown: 0
   dayTips: |-
     最近几天活跃
   day: 5

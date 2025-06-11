@@ -17,12 +17,13 @@ export default [
     label: "markdown模式",
     componentProps: {
       options: [
-        { label: "不使用", value: "false" },
-        { label: "md格式", value: "md" },
-        { label: "json格式", value: "json" }
-      ]
+        { label: "不使用", value: 0 },
+        { label: "md格式", value: 1 },
+        { label: "json格式", value: 2 }
+      ],
+      placeholder: "请选择模式"
     },
-    component: "Select"
+    component: "RadioGroup"
   },
   {
     field: "QBotSet.day",

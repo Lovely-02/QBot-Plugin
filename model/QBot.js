@@ -113,15 +113,15 @@ export default new (class QBot {
   }
 
   title(md = false) {
-    return !Config.QBotSet.markdown ? "\r" : md || Config.QBotSet.markdown === "md" ? "\r#" : "\r"
+    return !Config.QBotSet.markdown ? "\r" : md || Config.QBotSet.markdown === 1 ? "\r#" : "\r"
   }
 
   quote(md = false) {
-    return !Config.QBotSet.markdown ? "\r" : md || Config.QBotSet.markdown === "md" ? "\r> " : "\r"
+    return !Config.QBotSet.markdown ? "\r" : md || Config.QBotSet.markdown === 1 ? "\r> " : "\r"
   }
 
   json() {
-    return Config.QBotSet.markdown === "json" ? "\r```\r" : "\r"
+    return Config.QBotSet.markdown === 2 ? "\r```\r" : "\r"
   }
 
   sleep(ms) {
