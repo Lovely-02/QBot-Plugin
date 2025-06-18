@@ -34,8 +34,9 @@ export class Qmsg_tpl extends plugin {
     }
     const statusMap = {
       1: "未提审",
-      2: "审核中", 
-      3: "已通过"
+      2: "审核中",
+      3: "已通过",
+      4: "未通过"
     }
 
     const templates = msg_tpl.map((tpl) => {
@@ -51,7 +52,7 @@ export class Qmsg_tpl extends plugin {
     })
 
     let msglist = [
-      `${QBot.title(true)}QBot消息模板列表`,
+      `${QBot.title(true)}QBot消息模板列表 (${msg_tpl.length}/${data.data.max_msg_tpl_count})`,
       `${QBot.json()}`,
       templates.join("\r\r---\r"),
       `${QBot.json()}`
