@@ -38,7 +38,7 @@ export class Qcount extends plugin {
       ]
       await e.reply(msg)
     }
-    if (!getGroup) {
+    if (!getGroup && e.isGroup) {
       await DB.setID("group", group)
     }
     return false
