@@ -26,7 +26,8 @@ export class Qcount extends plugin {
     if (!getUser) {
       await DB.setID("user", user)
       const userCount = await this.getall("user")
-      const data = await Bot.pickMember(String(e.group_id), String(e.user_id)).getAvatarUrl(100)
+      let data = await Bot.pickMember(String(e.group_id), String(e.user_id)).getAvatarUrl(100)
+      if (!e.isGroup) data = await Bot.pickFriend(String(e.user_id)).getAvatarUrl(100)
       const url = await data.replace(/\/0$/, "/100")
       const msg = [
         segment.image(url),
