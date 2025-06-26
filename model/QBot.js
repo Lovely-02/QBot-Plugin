@@ -13,12 +13,13 @@ export default new (class QBot {
     this.msg_tpl = `${this.bot}/cgi-bin/msg_tpl/list`
     this.status = `${this.api}/pb/GetDeveloper`
     this.whlist = `${this.bot}/cgi-bin/event_subscirption/list_event`
+    this.upip = `${this.bot}/cgi-bin/dev_info/update_white_ip_config`
   }
 
-  async getlogin(type, appId = null) {
+  async getlogin(type, appId = null, uin, uid, ticket) {
     const json = await fetch(this.login, {
       method: "POST",
-      headers: this.getHeaders(),
+      headers: this.getHeaders(uin, uid, ticket),
       body: JSON.stringify({ type: type, miniAppId: appId })
     })
     const data = await json.json()
@@ -98,6 +99,20 @@ export default new (class QBot {
       method: "POST",
       headers: this.getHeaders(uin, uid, ticket),
       body: JSON.stringify({ bot_appid: appid })
+    })
+    const data = await json.json()
+    return data
+  }
+
+  async updateip(uin, uid, ticket, appid, ip, qrocde) {
+    const json = await fetch(this.upip, {
+      method: "POST",
+      headers: this.getHeaders(uin, uid, ticket),
+      body: JSON.stringify({
+        bot_appid: appid,
+        ip_white_infos: { prod: { ip_list: [ip], use: true } },
+        qr_code: qrocde
+      })
     })
     const data = await json.json()
     return data

@@ -28,10 +28,22 @@ export default new (class Login {
           appType: data.appType,
           appId: data.appId
         }
-        await DB.setcookies(e.user_id, cookies.appId, cookies.uid, cookies.uin, cookies.ticket, cookies.developerId, cookies.appType)
+        await DB.setcookies(
+          e.user_id,
+          cookies.appId,
+          cookies.uid,
+          cookies.uin,
+          cookies.ticket,
+          cookies.developerId,
+          cookies.appType
+        )
 
         await redis.set(`QBot:${e.user_id}`, data.appId)
-        return await e.reply([`${QBot.title(true)}登录成功`, `${QBot.quote(true)}AppID: ${data.appId}`, new Buttons().QBot()])
+        return await e.reply([
+          `${QBot.title(true)}登录成功`,
+          `${QBot.quote(true)}AppID: ${data.appId}`,
+          new Buttons().QBot()
+        ])
       }
       i++
       await QBot.sleep(3000)

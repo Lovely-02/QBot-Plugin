@@ -54,6 +54,11 @@ export const helpList = [
         icon: 7,
         title: "#Qbot订阅",
         desc: "开放平台订阅"
+      },
+      {
+        icon: 8,
+        title: "#Qbot更新ip",
+        desc: "开放平台白名单ip"
       }
     ]
   }
