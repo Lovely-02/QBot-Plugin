@@ -10,7 +10,7 @@ export class Qupip extends plugin {
       priority: Config.admin.priority,
       rule: [
         {
-          reg: `^#?${Config.admin.reg}更新ip$`,
+          reg: `^#?${Config.admin.reg}更新ip`,
           fnc: "upip"
         }
       ]
@@ -18,12 +18,22 @@ export class Qupip extends plugin {
   }
 
   async upip(e) {
-    if (e.isGrup) return await this.e.reply("当前命令仅支持私聊,请私聊使用")
+    if (this.e.isGroup) return await this.e.reply("当前命令仅支持私聊,请私聊使用")
+    const ipReg = new RegExp(`^#?${Config.admin.reg}更新ip\\s*(\\d+\\.\\d+\\.\\d+\\.\\d+)?$`)
+    const ipMatch = e.msg.match(ipReg)
+    let ip = ipMatch[2]
+    if (!ip) {
+      if (this.e.isMaster) {
+        ip = await this.getip()
+      } else {
+        return await e.reply("须手动拼接IP地址 #QBot更新ip 11.11.11.11")
+      }
+    }
     const login = await Login.Login(e)
-    return this.data(e, login.ck, login.appId)
+    return this.data(e, login.ck, login.appId, ip)
   }
 
-  async data(e, ck, appId) {
+  async data(e, ck, appId, ip) {
     const qr = await QBot.getlogin(51, appId, ck.uin, ck.developerId, ck.ticket)
     const link = `https://q.qq.Com/qrcode/check?client=qq&code=${qr}&ticket=${ck.ticket}`
     const url = Config.QBotSet.markdown ? segment.button([{ text: "点击授权", link: `${link}` }]) : `\r${link}`
@@ -41,11 +51,11 @@ export class Qupip extends plugin {
       let code = res.code
       if (code == 0) {
         let data = res.data.data
-        await QBot.updateip(ck.uin, ck.developerId, ck.ticket, appId, await this.getip(), qr)
+        await QBot.updateip(ck.uin, ck.developerId, ck.ticket, appId, ip, qr)
         return await e.reply([
           `${QBot.title(true)}${res.message}`,
           `${QBot.quote(true)}授权人: ${data.uin}`,
-          `${QBot.quote(true)}已设置IP: ${await this.getip()}`,
+          `${QBot.quote(true)}已设置IP: ${ip}`,
           new Buttons().QBot()
         ])
       }
