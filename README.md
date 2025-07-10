@@ -75,4 +75,4 @@ pnpm install
 
 <details>
 <summary>爱发电 以及 感谢投喂 </summary>
-<img width="365px" height="450px" src="resources/imgs/afdian02.jpg">
+<img width="375px" height="511px" src="resources/imgs/afdian02.jpg">
