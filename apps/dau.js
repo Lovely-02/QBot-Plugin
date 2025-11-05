@@ -11,7 +11,7 @@ export class Qdau extends plugin {
       priority: Config.admin.priority,
       rule: [
         {
-          reg: `^#?${Config.admin.reg}数据$`,
+          reg: `^#?${Config.admin.reg}数据(\\d+)?$`,
           fnc: "dau"
         }
       ]
@@ -20,14 +20,19 @@ export class Qdau extends plugin {
 
   async dau(e) {
     const login = await Login.Login(e)
-    return this.data(e, login.ck, login.appId)
+    let days = Config.QBotSet.day
+    const match = e.msg.match(new RegExp(`^#?${Config.admin.reg}数据(\\d+)?$`))
+    if (match && match[2]) days = parseInt(match[2])
+    return this.data(e, login.ck, login.appId, days)
   }
 
-  async data(e, ck, appId) {
-    const data0 = await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 0)
-    const data1 = await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 1)
-    const data2 = await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 2)
-    const data3 = await QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 3)
+  async data(e, ck, appId, days) {
+    const [data0, data1, data2, data3] = await Promise.all([
+      QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 0),
+      QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 1),
+      QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 2),
+      QBot.getdau(ck.uin, ck.developerId, ck.ticket, appId, 3)
+    ])
 
     let msglist = []
     let qg_data = data0.data.guild_data
@@ -59,12 +64,10 @@ export class Qdau extends plugin {
       return result.join("")
     }
 
-    for (let i = 0; i < Config.QBotSet.day; i++) {
-      msglist.push(DayData(i))
-    }
+    for (let i = 0; i < days; i++) msglist.push(DayData(i))
     const msg = [
       `${QBot.title(true)}QBot数据`,
-      `${QBot.quote(true)}最近${Config.QBotSet.day}天统计\r`,
+      `${QBot.quote(true)}最近${days}天统计\r`,
       `${QBot.json()}`,
       msglist.join(`\r\r---\r`),
       `${QBot.json()}`,

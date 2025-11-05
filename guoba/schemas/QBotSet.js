@@ -26,6 +26,11 @@ export default [
     component: "RadioGroup"
   },
   {
+    field: "QBotSet.arklogin",
+    label: "ark模板登录",
+    component: "Switch"
+  },
+  {
     field: "QBotSet.day",
     label: "dau显示天数",
     required: true,
